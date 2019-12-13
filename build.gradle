@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+}
+
+group 'com.vike'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8//新增
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.vertx:vertx-core:3.8.4'//新增 vert.x core的依赖
+    compile 'io.vertx:vertx-web:3.8.4'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.guava:guava:28.1-jre'
+    compile 'io.vertx:vertx-mysql-postgresql-client:3.8.4'
+    
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.2'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'io.vertx', name: 'vertx-unit', version: '3.8.4'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.vike.grune.Main"//指定Main函数所在的类
+        
+//        attributes "Main-Class": "io.vertx.core.Launcher",//改为Launcher
+//                "Main-Verticle": "com.vike.grune.MainVerticle"//新增Main Verticle属性，对应MainVerticle类
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
